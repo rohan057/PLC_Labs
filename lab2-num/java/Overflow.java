@@ -63,7 +63,7 @@ public class Overflow
         for ( int j = 1; j <= m; j++ )
         {
             int next_ns = ns * n;
-//             assert ?? : "power: Integer overflow";
+            //assert next_ns > 0 && next_ns/n == ns : "power: Integer overflow";
             resultList.add(next_ns);
             ns = next_ns;
         }
@@ -86,7 +86,7 @@ public class Overflow
         for ( int j = 1; j <= m; j++ )
         {
             ns = ns * n;
-//             assert ?? : "Floating-point overflow";
+            assert Math.abs(ns) < Double.MAX_VALUE : "Floating point overflow";
             resultList.add(ns);
         }
         return resultList;
@@ -112,7 +112,7 @@ public class Overflow
         for ( int j = 0; j <= m; j++ )
         {
             ns_inv = ns_inv / n; // update from 1/n^(i-1) to 1/n^i
-//             assert ?? : "Floating point underflow";
+            assert Math.abs(ns_inv) > Double.MIN_VALUE : "Floating point underflow";
             geom_sum = ns_inv + geom_sum;
             resultList.add(geom_sum);
         }

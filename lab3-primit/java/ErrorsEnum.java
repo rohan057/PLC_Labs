@@ -9,17 +9,17 @@ public class ErrorsEnum
     
     private static <E extends Enum<E>> E getEnumElement(String elementTypeName, Class<E> elementType)
     {
-        boolean haveResult = false;
-        E result = null;
+        boolean haveError = false;
+        E error = null;
         Scanner stdin = new Scanner(System.in);
         
-        while ( ! haveResult )
+        while ( ! haveError )
         {
             System.out.print("Input " + elementTypeName + ": ");
             try
             {
-                result = Enum.valueOf(elementType, stdin.next().toUpperCase());
-                haveResult = true;
+                error = Enum.valueOf(elementType, stdin.next().toUpperCase());
+                haveError = true;
             }
             catch (IllegalArgumentException e)
             {
@@ -29,41 +29,41 @@ public class ErrorsEnum
         }
         
         stdin.close();
-        return result;
+        return error;
     }
   
-    private static Result error2Result(Error e)
+    private static Error result2Error (Result e)
     {
-        Result result = null;
+        Error error = null;
         
         switch (e) {
-        case FP_ROUNDING:
-            result = Result.A_BIT_DIFFERENT;
+        case A_BIT_DIFFERENT:
+            error = Error.FP_ROUNDING;
             break;
-        case FP_OVERFLOW:
-            result = Result.INFINITY;
+        case INFINITY:
+            error = Error.FP_OVERFLOW;
             break;
-        case FP_UNDERFLOW:
-            result = Result.ZERO;
+        case ZERO:
+            error = Error.FP_UNDERFLOW;
             break;
-        case INT_OVERFLOW:
-            result = Result.VERY_DIFFERENT;
+        case VERY_DIFFERENT:
+            error = Error.INT_OVERFLOW;
             break;
         }
         
-        return result;
+        return error;
     }
 
     public static void main(String[] args)
     {
-        System.out.print("Known errors = ");
-        for (Error e : EnumSet.allOf(Error.class)) 
+        System.out.print("Known results = ");
+        for (Result e : EnumSet.allOf(Result.class)) 
         {
             System.out.print(e + " ");
         }
         System.out.println();
         
-        Error e = getEnumElement("error", Error.class);
-        System.out.println(e + " results in: " + error2Result(e));
+        Result e = getEnumElement("result", Result.class);
+        System.out.println(e + " leads to : " + result2Error(e));
     }
 }

@@ -8,18 +8,27 @@ sayHello =
    putStrLn "hello"
   putStrLn name
 -}
+import System.Exit (exitSuccess)
 
-ask :: String -> IO ()
-ask prompt =
+myFunc x  = show (x*10) ++ " is the output"
+
+ask :: Int -> String -> IO ()
+ask count prompt =
   do
-  putStrLn prompt
+  putStrLn (prompt ++ replicate count '!')
   line <- getLine
-  if line == ""
-    then ask prompt
+  if line == "" && count < 2 
+    then ask (count + 1) prompt
+  else if line == "" && count >= 2
+    then putStrLn "Calm down type something" >> exitSuccess
+   else if line == "quit"
+   then exitSuccess
     else putStrLn ("you said: " ++ reverse line)
+
 
 main :: IO ()
 main =
   do
+
   --sayHello
-  ask "please say something"
+  ask 0 "please say something"
